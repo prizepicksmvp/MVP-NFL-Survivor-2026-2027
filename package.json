@@ -1,0 +1,26 @@
+{
+  "name": "mvp-nfl-survivor-2026-2027",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A static site for the PrizePicks MVP Survivor Challenge — pick one QB a week to clear 1.5 combined touchdowns (passing + rushing + receiving), never repeat a QB, or you're out. Shows a live pick % breakdown for the current week, plus a scrollable history page with the full survivor ladder. No backend required.",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prizepicksmvp/MVP-NFL-Survivor-2026-2027.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/prizepicksmvp/MVP-NFL-Survivor-2026-2027/issues"
+  },
+  "homepage": "https://github.com/prizepicksmvp/MVP-NFL-Survivor-2026-2027#readme",
+  "dependencies": {
+    "astro": "^7.2.9"
+  }
+}

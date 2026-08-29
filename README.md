@@ -1,18 +1,19 @@
 # MVP Survivor Challenge
 
-A static site for the PrizePicks MVP Survivor Challenge — pick one QB a week to clear 1.5 combined touchdowns (passing + rushing + receiving), never repeat a QB, or you're out. Shows a live pick % breakdown for the current week, plus a scrollable history page with the full survivor ladder. No backend required.
+An Astro app for the PrizePicks MVP Survivor Challenge — pick one QB a week to clear 1.5 combined touchdowns (passing + rushing + receiving), never repeat a QB, or you're out. Shows a live pick % breakdown for the current week, plus a scrollable history page with the full survivor ladder. No backend required.
 
 ## How it works
 
-- `index.html` — home page: rules + this week's pick breakdown
-- `history.html` — past weeks, scrollable, plus the season-long survivor ladder
+- `src/pages/index.astro` — home page: rules + this week's pick breakdown
+- `src/pages/history.astro` — past weeks, scrollable, plus the season-long survivor ladder
 - `shared.js` — data loading + aggregation logic used by both pages
 - `index.js` / `history.js` — page-specific rendering
 - `styles.css` — brand-driven styling
 - `config.js` — the one file you edit weekly (or once, if you go live)
-- `data/sample-weeks.json` — placeholder data so the pages look right before you connect a real sheet
+- `public/data/sample-weeks.json` — placeholder data so the pages look right before you connect a real sheet
+- `astro.config.mjs` / `webflow.json` — minimal Webflow Cloud-compatible Astro configuration
 
-The site pulls pick data straight from a Google Sheet you publish to the web as CSV. No server, no database — GitHub Pages hosts static files and the browser fetches your sheet directly.
+The site pulls pick data straight from a Google Sheet you publish to the web as CSV. No server, no database — Astro builds the app, and the browser fetches your sheet directly.
 
 **One thing worth knowing:** publishing a tab this way makes that CSV link viewable by anyone who has it, no login required. That's why the setup below splits your data into an internal-only tab (with names) and a separate, name-free tab that's the only thing actually published — see "Keeping member names actually internal" below.
 
@@ -95,27 +96,36 @@ window.SURVIVOR_CONFIG = {
 };
 ```
 
-## 2. Push this to GitHub
+## 2. Run locally
 
 From this folder:
 
 ```bash
-git init
-git add .
-git commit -m "MVP Survivor Challenge site"
-git branch -M main
-git remote add origin https://github.com/<your-org>/<your-repo>.git
-git push -u origin main
+npm install
+npm run dev
 ```
 
-## 3. Turn on GitHub Pages
+To verify the production build:
 
-1. In your new repo on GitHub: **Settings > Pages**
-2. Under "Build and deployment", set **Source** to `Deploy from a branch`
-3. Set **Branch** to `main` and folder to `/ (root)`
-4. Save — GitHub gives you a URL like `https://<your-org>.github.io/<your-repo>/` within a minute or two
+```bash
+npm run build
+npm run preview
+```
 
-That's your live site. Share that link with your MVPs.
+## 3. Deploy to Webflow Cloud
+
+This repo is configured as an Astro app for Webflow Cloud. The Webflow Cloud docs currently support Astro and Next.js apps, require the app to live in a GitHub repository, and use `package.json` to detect the framework. This repo also includes `webflow.json` to explicitly pin the framework to Astro.
+
+In Webflow:
+
+1. Go to your Workspace dashboard.
+2. Click **New Project > App**.
+3. Import this GitHub repository.
+4. Select the branch you want to deploy.
+5. Leave advanced framework path settings at the repo root unless you move the app later.
+6. Deploy.
+
+Per Webflow Cloud's guidance, `astro.config.mjs` does not set `base` or asset-prefix values. Webflow Cloud applies those from the environment's mount path during deployment.
 
 ## Weekly workflow once it's live
 
@@ -128,11 +138,11 @@ That's your live site. Share that link with your MVPs.
 
 - **TD threshold, season label, lock countdown, total MVP roster size** — edit the top of `config.js`
 - **Colors, type, layout** — `styles.css` uses PrizePicks brand tokens as CSS variables at the top of the file
-- **Copy/rules text** — edit directly in `index.html` / `history.html`
+- **Copy/rules text** — edit directly in `src/pages/index.astro` / `src/pages/history.astro`
 
 ## Notes
 
-- If `SHEET_CSV_URL` is blank, both pages show the sample data in `data/sample-weeks.json` so you can preview the design before connecting real data. If your live site is showing QBs/results you don't recognize, this is almost always why — double check `SHEET_CSV_URL` in `config.js` actually has your Published tab's CSV link pasted in (and that it ends in `output=csv`, not `single=true` — that means you published the tab as a webpage instead of CSV).
+- If `SHEET_CSV_URL` is blank, both pages show the sample data in `public/data/sample-weeks.json` so you can preview the design before connecting real data. If your live site is showing QBs/results you don't recognize, this is almost always why — double check `SHEET_CSV_URL` in `config.js` actually has your Published tab's CSV link pasted in (and that it ends in `output=csv`, not `single=true` — that means you published the tab as a webpage instead of CSV).
 - Set `TOTAL_MVPS` in `config.js` once at kickoff (e.g. the number of people who filled out your intake form). The "Still Alive" stat is then this number minus everyone eliminated so far, counted cumulatively across every week — no need to track who's who, since eliminated MVPs simply stop showing up in future weeks' rows. If `TOTAL_MVPS` is left blank, the site falls back to counting just the current week's entries instead.
 - By default, the home page shows whichever week has the highest number in your Picks tab — so it naturally stays on Week 1 until you add Week 2 rows yourself. If you want a hard guarantee that nothing changes until you say so, set `CURRENT_WEEK` in `config.js` to a specific number (e.g. `1`) — the home page will lock to that week regardless of what's in the sheet, and you flip it forward manually whenever you're ready. Leave it `null` (the default) to keep auto-detecting the latest week.
 - The site never renders individual names or picks — only aggregate percentages and counts, by design. The no-repeat rule is enforced on your admin sheet (via the Duplicate? flag), not by anything public-facing.
