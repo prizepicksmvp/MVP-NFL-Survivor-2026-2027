@@ -25,7 +25,7 @@ window.SURVIVOR_CONFIG = {
 // Weekly Typeform link MVPs use to submit their pick. Update this each week
   // to swap in the correct survey (byes, injuries, etc.) — nothing else needs
   // to change when you do.
-  TYPEFORM_URL: "https://form.typeform.com/to/eNw7TYVX?typeform-source=prizepicksloyalty.typeform.com",
+  TYPEFORM_URL: "https://form.typeform.com/to/lNnCrTZ9",
   // The combined TD threshold QBs need to hit to survive (passing + rushing + receiving)
   TD_THRESHOLD: 1.5,
 
