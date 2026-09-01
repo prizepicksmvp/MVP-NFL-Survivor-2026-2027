@@ -615,3 +615,68 @@ footer {
 @media (max-width:900px){
   .rewards-grid{grid-template-columns:1fr;}
 }
+/* ===========================================================
+   HERO PICK CTA
+   Appended for the "Make Your Pick" button under the hero stats
+   on index.html. Paste at the end of styles.css, styles-left.css,
+   and styles-center.css so the button survives a variant swap.
+   =========================================================== */
+
+.hero-cta {
+  margin-top: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.pick-button {
+  display: inline-block;
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: var(--so-clean);
+  background: var(--stankonia);
+  border: 1px solid var(--stankonia-400);
+  padding: 15px 38px;
+  border-radius: 999px;
+  box-shadow: 0 8px 24px rgba(128, 0, 255, 0.25);
+  transition: background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.pick-button:hover,
+.pick-button:focus-visible {
+  background: var(--stankonia-400);
+  box-shadow: 0 10px 28px rgba(128, 0, 255, 0.38);
+}
+
+.pick-button:focus-visible {
+  outline: 2px solid var(--jackson-blue);
+  outline-offset: 3px;
+}
+
+/* Locked state — set by the script in index.html once NEXT_LOCK_ISO passes. */
+.pick-button.is-locked,
+.pick-button.is-locked:hover,
+.pick-button.is-locked:focus-visible {
+  background: transparent;
+  border-color: var(--stankonia-800);
+  color: var(--tint-100);
+  box-shadow: none;
+  cursor: default;
+}
+
+.hero-cta-note {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--tint-100);
+  min-height: 1.2em;
+}
+
+@media (max-width: 640px) {
+  .pick-button {
+    padding: 14px 30px;
+    font-size: 1rem;
+  }
+}
