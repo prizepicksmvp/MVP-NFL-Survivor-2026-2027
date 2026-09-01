@@ -18,7 +18,7 @@
         </div>
       </a>
       <nav class="site-nav">
-        <a href="#" data-pick-link target="_blank" rel="noopener" class="nav-cta">Make Your Pick</a>
+        <a href="#" data-pick-link data-locked-label="Picks Locked" target="_blank" rel="noopener" class="nav-cta">Make Your Pick</a>
         <a href="#this-week">This Week</a>
         <a href="history.html">Past Weeks</a>
         <a href="#rules">Rules</a>
@@ -50,10 +50,15 @@
           <span class="label">Until Picks Lock</span>
         </div>
       </div>
+
+      <div class="hero-cta">
+        <a href="#" data-pick-link target="_blank" rel="noopener" class="pick-button">Make Your Pick</a>
+        <p class="hero-cta-note" data-lock-note></p>
+      </div>
     </div>
   </section>
-  
-<section id="rules">
+
+  <section id="rules">
     <div class="wrap">
       <div class="section-head">
         <h2>How it works</h2>
@@ -89,7 +94,7 @@
     <div class="wrap">
       <div class="section-head">
         <h2 id="this-week-heading">This week's pick breakdown</h2>
-        <p>Who MVPs are is riding with — aggregate percentages only, never individual picks.</p>
+        <p>Who MVPs are riding with — aggregate percentages only, never individual picks.</p>
       </div>
       <div class="picks-panel" id="picks-panel">
         <p class="state-msg">Loading picks…</p>
@@ -120,7 +125,7 @@
         <div class="reward-card">
           <div class="tier">Grand Prize</div>
           <h3>AFC/NFC Championship Game Tickets</h3>
-          <p>The last MVP stadning will recieve tickets to an AFC or NFC Championship game, with accommodations covered.</p>
+          <p>The last MVP standing will receive tickets to an AFC or NFC Championship game, with accommodations covered.</p>
           <span class="reward-pill">Tickets + travel</span>
         </div>
       </div>
