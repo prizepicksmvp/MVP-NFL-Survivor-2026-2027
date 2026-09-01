@@ -160,7 +160,80 @@ window.Survivor = (function () {
 
   return { cfg, loadData, parseCSV, rowsToWeeks, normalizeResult, aggregatePicks, dominantResult, usedQBsForName, cumulativeEliminated, resolveCurrentWeek, escapeHTML };
 })();
-// Point every "Make Your Pick" nav button to this week's Typeform link
-document.querySelectorAll('[data-pick-link]').forEach(function (el) {
-  el.href = SURVIVOR_CONFIG.TYPEFORM_URL;
-});
+
+/**
+ * Pick links + lock state.
+ *
+ * Points every [data-pick-link] element at this week's Typeform URL, and once
+ * NEXT_LOCK_ISO passes, swaps them to a locked state. Any [data-lock-note]
+ * element gets the matching supporting line. Both values come from config.js,
+ * so the weekly update is still a one-file change.
+ *
+ * Optional per-element attributes:
+ *   data-locked-label  — locked text for that button (default "Picks are locked")
+ *   data-lock-note     — element whose text tracks the lock state
+ */
+(function () {
+  const cfg = window.SURVIVOR_CONFIG || {};
+  const lockDate = cfg.NEXT_LOCK_ISO ? new Date(cfg.NEXT_LOCK_ISO) : null;
+  const hasLockDate = lockDate && !isNaN(lockDate.getTime());
+
+  function formatLock(date) {
+    try {
+      return date.toLocaleString("en-US", {
+        timeZone: "America/New_York",
+        weekday: "short",
+        month: "short",
+        day: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+      }) + " ET";
+    } catch (err) {
+      return date.toLocaleString();
+    }
+  }
+
+  function isLocked() {
+    return hasLockDate && Date.now() >= lockDate.getTime();
+  }
+
+  function render() {
+    const locked = isLocked();
+
+    document.querySelectorAll("[data-pick-link]").forEach(function (el) {
+      el.href = cfg.TYPEFORM_URL || "#";
+
+      // Remember the original label the first time through so we can restore it.
+      if (!el.dataset.openLabel) el.dataset.openLabel = el.textContent.trim();
+
+      if (locked) {
+        el.classList.add("is-locked");
+        el.setAttribute("aria-disabled", "true");
+        el.removeAttribute("target");
+        el.textContent = el.getAttribute("data-locked-label") || "Picks are locked";
+      } else {
+        el.classList.remove("is-locked");
+        el.removeAttribute("aria-disabled");
+        el.setAttribute("target", "_blank");
+        el.textContent = el.dataset.openLabel;
+      }
+    });
+
+    document.querySelectorAll("[data-lock-note]").forEach(function (el) {
+      if (!hasLockDate) { el.textContent = ""; return; }
+      el.textContent = locked
+        ? "This week is closed. The next form opens once results are posted."
+        : "Picks lock " + formatLock(lockDate);
+    });
+  }
+
+  // Block clicks on locked links, including keyboard activation.
+  document.addEventListener("click", function (event) {
+    const link = event.target.closest("[data-pick-link]");
+    if (link && link.classList.contains("is-locked")) event.preventDefault();
+  });
+
+  render();
+  // Recheck so a tab left open across the deadline updates on its own.
+  setInterval(render, 15000);
+})();
