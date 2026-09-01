@@ -542,3 +542,76 @@ footer {
 .site-nav .nav-cta:hover {
   background: var(--stankonia-800);
 }
+/* ===========================================================
+   REWARDS SECTION
+   Appended for the "What you're playing for" block on index.html.
+   Reuses the existing .section-head styling — nothing above is
+   overridden. Colors are literal hex so this block is portable
+   between styles-left.css and styles-center.css.
+   =========================================================== */
+
+.rewards-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:24px;
+  align-items:stretch;
+}
+
+.reward-card{
+  display:flex;
+  flex-direction:column;
+  background:#0F0A1E;
+  border:1px solid rgba(128,0,255,.28);
+  border-radius:16px;
+  padding:34px 30px;
+}
+
+.reward-card .tier{
+  font-size:14px;
+  font-weight:700;
+  letter-spacing:.02em;
+  color:#8000FF;
+  margin-bottom:18px;
+}
+
+.reward-card h3{
+  font-size:26px;
+  font-weight:700;
+  letter-spacing:-.02em;
+  line-height:1.15;
+  color:#FBF9FF;
+  margin:0 0 14px;
+}
+
+.reward-card p{
+  font-size:16px;
+  line-height:1.6;
+  color:#C8B9F9;
+  margin:0 0 26px;
+}
+
+/* margin-top:auto pins every pill to the bottom of its card so the
+   row stays aligned even when the copy lengths differ. */
+.reward-pill{
+  align-self:flex-start;
+  margin-top:auto;
+  font-size:15px;
+  font-weight:700;
+  line-height:1.35;
+  padding:12px 22px;
+  border-radius:999px;
+  border:1px solid #8000FF;
+  background:transparent;
+  color:#6EFF00;
+}
+
+.rewards-foot{
+  margin-top:28px;
+  font-size:15px;
+  font-style:italic;
+  color:rgba(173,139,251,.75);
+}
+
+@media (max-width:900px){
+  .rewards-grid{grid-template-columns:1fr;}
+}
