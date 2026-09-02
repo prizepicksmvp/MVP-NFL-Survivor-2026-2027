@@ -5,6 +5,12 @@
  */
 window.Survivor = (function () {
   const cfg = window.SURVIVOR_CONFIG || {};
+  const rawBaseUrl = window.SURVIVOR_BASE_URL || "/";
+  const baseUrl = rawBaseUrl.endsWith("/") ? rawBaseUrl : `${rawBaseUrl}/`;
+
+  function fromBase(path) {
+    return `${baseUrl}${path.replace(/^\/+/, "")}`;
+  }
 
   async function loadData() {
     if (cfg.SHEET_CSV_URL && cfg.SHEET_CSV_URL.trim()) {
@@ -13,7 +19,7 @@ window.Survivor = (function () {
       const csv = await res.text();
       return rowsToWeeks(parseCSV(csv));
     }
-    const res = await fetch("data/sample-weeks.json", { cache: "no-store" });
+    const res = await fetch(fromBase("data/sample-weeks.json"), { cache: "no-store" });
     if (!res.ok) throw new Error("Sample data fetch failed");
     return res.json();
   }

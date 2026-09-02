@@ -18,7 +18,7 @@
  *   Result       -> "Survived" / "Eliminated" / "Pending" (optional)
  *
  * If SHEET_CSV_URL is left blank, the site falls back to the sample
- * data in data/sample-weeks.json so you can preview the layout.
+ * data in public/data/sample-weeks.json so you can preview the layout.
  */
 window.SURVIVOR_CONFIG = {
   SHEET_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRxe4Ssdq_lp_0QZruZOvphHNcnlbnGFqQ7jqvWWO-L7HQcgPKbi2gZwQmnwiA4NJrg85gcZPZp406x/pub?gid=648629051&single=true&output=csv",

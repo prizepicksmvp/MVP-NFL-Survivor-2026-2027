@@ -1,3 +1,10 @@
+---
+import "../../styles.css";
+
+const baseUrl = import.meta.env.BASE_URL;
+const fromBase = (path) => `${baseUrl}${path}`;
+---
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,22 +12,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Past Weeks | MVP Survivor Challenge</title>
   <meta name="description" content="Past weeks of the PrizePicks MVP Survivor Challenge — pick % breakdowns and the survivor ladder." />
-  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <header class="site-header">
     <div class="wrap">
-      <a href="index.html" class="brand-link">
+      <a href={baseUrl} class="brand-link">
         <div class="brand">
-          <img src="assets/logo-on-dark.png" alt="PrizePicks" />
+          <img src={fromBase("assets/logo-on-dark.png")} alt="PrizePicks" />
           <span class="brand-name">MVP Survivor<small>Presented by PrizePicks</small></span>
         </div>
       </a>
       <nav class="site-nav">
         <a href="#" data-pick-link data-locked-label="Picks Locked" target="_blank" rel="noopener" class="nav-cta">Make Your Pick</a>
-        <a href="index.html#this-week">This Week</a>
-        <a href="history.html" class="current">Past Weeks</a>
-        <a href="index.html#rules">Rules</a>
+        <a href={`${baseUrl}#this-week`}>This Week</a>
+        <a href={fromBase("history")} class="current">Past Weeks</a>
+        <a href={`${baseUrl}#rules`}>Rules</a>
       </nav>
     </div>
   </header>
@@ -56,11 +62,16 @@
   <footer>
     <div class="wrap" style="display:flex; justify-content:space-between; width:100%; flex-wrap:wrap; gap:10px;">
       <span>PrizePicks MVP Survivor Challenge</span>
-      <span><a href="index.html">&larr; Back to this week</a></span>
+      <span><a href={baseUrl}>&larr; Back to this week</a></span>
     </div>
   </footer>
-  <script src="config.js"></script>
-  <script src="shared.js"></script>
-  <script src="history.js"></script>
+  <script>
+    window.SURVIVOR_BASE_URL = import.meta.env.BASE_URL;
+  </script>
+  <script>
+    import "../../config.js";
+    import "../../shared.js";
+    import "../../history.js";
+  </script>
 </body>
 </html>
