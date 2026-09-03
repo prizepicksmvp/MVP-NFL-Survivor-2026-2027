@@ -1,7 +1,6 @@
 (function () {
   const S = window.Survivor;
   const cfg = S.cfg;
-
   const els = {
     picksPanel: document.getElementById("picks-panel"),
     lockCountdown: document.getElementById("lock-countdown"),
@@ -10,35 +9,28 @@
     thresholdText: document.querySelectorAll("[data-threshold]"),
     weekHeading: document.getElementById("this-week-heading"),
   };
-
   init();
-
   async function init() {
     renderThreshold();
     renderCountdown();
-
     let weeksData = [];
     try {
       weeksData = await S.loadData();
     } catch (err) {
       console.error("Failed to load pick data", err);
     }
-
     if (!weeksData.length) {
       els.picksPanel.innerHTML = '<p class="state-msg">No pick data yet. Connect a Google Sheet in config.js, or check back once Week 1 picks are in.</p>';
       return;
     }
-
     const latest = S.resolveCurrentWeek(weeksData);
     renderTopStats(latest, weeksData);
     renderPicksPanel(latest);
   }
-
   function renderThreshold() {
     const t = cfg.TD_THRESHOLD ?? 1.5;
     els.thresholdText.forEach((el) => { el.textContent = t; });
   }
-
   function renderCountdown() {
     if (!cfg.NEXT_LOCK_ISO) {
       els.lockCountdown.textContent = "TBD";
@@ -59,10 +51,8 @@
     tick();
     setInterval(tick, 60000);
   }
-
   function renderTopStats(latest, weeksData) {
     els.currentWeekStat.textContent = "Week " + latest.week;
-
     if (cfg.TOTAL_MVPS) {
       const eliminated = S.cumulativeEliminated(weeksData);
       const remaining = cfg.TOTAL_MVPS - eliminated;
@@ -71,28 +61,22 @@
       const remaining = latest.entries.filter((e) => e.result !== "Eliminated").length;
       els.remainingStat.textContent = remaining + " of " + latest.entries.length;
     }
-
     if (els.weekHeading) els.weekHeading.textContent = "Week " + latest.week + " pick breakdown";
   }
-
   function renderPicksPanel(weekObj) {
     const agg = S.aggregatePicks(weekObj.entries);
     const total = weekObj.entries.length;
-
     const rows = agg.map((c) => {
       const res = S.dominantResult(c);
       const tagClass = res.toLowerCase();
       return `
         <div class="pick-row">
-          <div class="pick-name">
-            ${S.escapeHTML(c.qb)}
-            <span class="result-tag ${tagClass}">${res}</span>
-          </div>
+          <div class="pick-name">${S.escapeHTML(c.qb)}</div>
+          <div class="pick-status"><span class="result-tag ${tagClass}">${res}</span></div>
           <div class="bar-track"><div class="bar-fill" style="width:${c.pct.toFixed(1)}%"></div></div>
           <div class="pick-pct">${c.pct.toFixed(0)}%</div>
         </div>`;
     }).join("");
-
     els.picksPanel.innerHTML = `
       <div class="picks-meta">
         <span class="total"><strong>${total}</strong> entries this week</span>
