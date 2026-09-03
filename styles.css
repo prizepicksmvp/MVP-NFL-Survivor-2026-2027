@@ -679,4 +679,15 @@ footer {
     padding: 14px 30px;
     font-size: 1rem;
   }
+}.lock-note-main {
+  display: block;
+}
+
+.lock-note-sub {
+  display: block;
+  margin: 8px auto 0;
+  max-width: 46ch;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  opacity: 0.7;
 }
