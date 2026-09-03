@@ -225,11 +225,28 @@ window.Survivor = (function () {
       }
     });
 
-    document.querySelectorAll("[data-lock-note]").forEach(function (el) {
+       document.querySelectorAll("[data-lock-note]").forEach(function (el) {
       if (!hasLockDate) { el.textContent = ""; return; }
-      el.textContent = locked
-        ? "This week is closed. The next form opens once results are posted."
+
+      const headline = locked
+        ? LOCKED_NOTE_MAIN
         : "Picks lock " + formatLock(lockDate);
+
+      const detail = locked ? LOCKED_NOTE_DETAIL : OPEN_NOTE_DETAIL;
+
+      el.textContent = "";
+
+      const main = document.createElement("span");
+      main.className = "lock-note-main";
+      main.textContent = headline;
+      el.appendChild(main);
+
+      if (detail) {
+        const sub = document.createElement("span");
+        sub.className = "lock-note-sub";
+        sub.textContent = detail;
+        el.appendChild(sub);
+      }
     });
   }
 
@@ -238,7 +255,16 @@ window.Survivor = (function () {
     const link = event.target.closest("[data-pick-link]");
     if (link && link.classList.contains("is-locked")) event.preventDefault();
   });
+  // --- Note copy. Edit these strings to change what appears under the button. ---
+  const OPEN_NOTE_DETAIL =
+    "Once you have submitted your pick for the week, you will receive a confirmation email. " +
+    "If for any reason you submit multiple picks, we will be taking the latest submission.";
 
+  const LOCKED_NOTE_MAIN =
+    "This week is closed. The next form opens once results are posted.";
+
+  const LOCKED_NOTE_DETAIL = "";
+  
   render();
   // Recheck so a tab left open across the deadline updates on its own.
   setInterval(render, 15000);
