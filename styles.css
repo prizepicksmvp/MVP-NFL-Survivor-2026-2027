@@ -343,9 +343,11 @@ nav.site-nav a:focus-visible,
   color: var(--so-clean);
 }
 
+/* Four fixed tracks — name, status badge, bar, percentage — so the badges
+   line up down the column no matter how long the QB name is. */
 .pick-row {
   display: grid;
-  grid-template-columns: 180px 1fr 64px;
+  grid-template-columns: 170px 96px 1fr 64px;
   align-items: center;
   gap: 14px;
   padding: 10px 0;
@@ -357,9 +359,11 @@ nav.site-nav a:focus-visible,
 .pick-name {
   font-weight: 700;
   font-size: 0.92rem;
+}
+
+.pick-status {
   display: flex;
   align-items: center;
-  gap: 8px;
 }
 
 .bar-track {
@@ -390,7 +394,6 @@ nav.site-nav a:focus-visible,
   text-transform: uppercase;
   padding: 2px 7px;
   border-radius: 5px;
-  margin-left: 6px;
 }
 
 .result-tag.survived { background: rgba(110,255,0,0.12); color: var(--atlien-green); }
@@ -519,8 +522,10 @@ footer {
   .brand-name { font-size: 1.05rem; }
   nav.site-nav { gap: 14px; font-size: 0.85rem; }
   .hero-stats { grid-template-columns: 1fr; }
-  .pick-row { grid-template-columns: 1fr; row-gap: 6px; }
-  .pick-pct { text-align: left; }
+  /* Name and badge share a row; bar and percentage stack beneath. */
+  .pick-row { grid-template-columns: auto 1fr; row-gap: 6px; column-gap: 10px; }
+  .bar-track { grid-column: 1 / -1; }
+  .pick-pct { grid-column: 1 / -1; text-align: left; }
   .ladder-rung { grid-template-columns: 50px 1fr; }
   .ladder-count { grid-column: 1 / -1; text-align: left; }
 }
@@ -656,7 +661,7 @@ footer {
   outline-offset: 3px;
 }
 
-/* Locked state — set by the script in index.html once NEXT_LOCK_ISO passes. */
+/* Locked state — set by shared.js once NEXT_LOCK_ISO passes. */
 .pick-button.is-locked,
 .pick-button.is-locked:hover,
 .pick-button.is-locked:focus-visible {
@@ -679,7 +684,10 @@ footer {
     padding: 14px 30px;
     font-size: 1rem;
   }
-}.lock-note-main {
+}
+
+/* ---------- Lock note, two-line version ---------- */
+.lock-note-main {
   display: block;
 }
 
