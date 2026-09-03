@@ -9,6 +9,10 @@
     "build": "astro build",
     "preview": "astro preview"
   },
+  "engines": {
+    "node": ">=22.12.0",
+    "npm": ">=9.6.5"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/prizepicksmvp/MVP-NFL-Survivor-2026-2027.git"
@@ -21,6 +25,6 @@
   },
   "homepage": "https://github.com/prizepicksmvp/MVP-NFL-Survivor-2026-2027#readme",
   "dependencies": {
-    "astro": "^7.2.9"
+    "astro": "^7.3.1"
   }
 }
