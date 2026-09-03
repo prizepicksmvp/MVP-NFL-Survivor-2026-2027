@@ -2,7 +2,8 @@
 import "../../styles.css";
 
 const baseUrl = import.meta.env.BASE_URL;
-const fromBase = (path) => `${baseUrl}${path}`;
+const appBaseUrl = baseUrl.endsWith("/") ? baseUrl : `${baseUrl}/`;
+const fromBase = (path) => `${appBaseUrl}${path.replace(/^\/+/, "")}`;
 ---
 
 <!DOCTYPE html>
@@ -17,7 +18,7 @@ const fromBase = (path) => `${baseUrl}${path}`;
 <body>
   <header class="site-header">
     <div class="wrap">
-      <a href={baseUrl} class="brand-link">
+      <a href={appBaseUrl} class="brand-link">
         <div class="brand">
           <img src={fromBase("assets/logo-on-dark.png")} alt="PrizePicks" />
           <span class="brand-name">MVP Survivor<small>Presented by PrizePicks</small></span>
@@ -25,9 +26,9 @@ const fromBase = (path) => `${baseUrl}${path}`;
       </a>
       <nav class="site-nav">
         <a href="#" data-pick-link data-locked-label="Picks Locked" target="_blank" rel="noopener" class="nav-cta">Make Your Pick</a>
-        <a href={`${baseUrl}#this-week`}>This Week</a>
+        <a href={`${appBaseUrl}#this-week`}>This Week</a>
         <a href={fromBase("history")} class="current">Past Weeks</a>
-        <a href={`${baseUrl}#rules`}>Rules</a>
+        <a href={`${appBaseUrl}#rules`}>Rules</a>
       </nav>
     </div>
   </header>
@@ -63,7 +64,7 @@ const fromBase = (path) => `${baseUrl}${path}`;
   <footer>
     <div class="wrap" style="display:flex; justify-content:space-between; width:100%; flex-wrap:wrap; gap:10px;">
       <span>PrizePicks MVP Survivor Challenge</span>
-      <span><a href={baseUrl}>&larr; Back to this week</a></span>
+      <span><a href={appBaseUrl}>&larr; Back to this week</a></span>
     </div>
   </footer>
   <script>

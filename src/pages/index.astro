@@ -2,7 +2,8 @@
 import "../../styles.css";
 
 const baseUrl = import.meta.env.BASE_URL;
-const fromBase = (path) => `${baseUrl}${path}`;
+const appBaseUrl = baseUrl.endsWith("/") ? baseUrl : `${baseUrl}/`;
+const fromBase = (path) => `${appBaseUrl}${path.replace(/^\/+/, "")}`;
 ---
 
 <!DOCTYPE html>
@@ -18,7 +19,7 @@ const fromBase = (path) => `${baseUrl}${path}`;
 
   <header class="site-header">
     <div class="wrap">
-      <a href={baseUrl} class="brand-link">
+      <a href={appBaseUrl} class="brand-link">
         <div class="brand">
           <img src={fromBase("assets/logo-on-dark.png")} alt="PrizePicks" />
           <span class="brand-name">MVP Survivor<small>Presented by PrizePicks</small></span>
