@@ -53,7 +53,12 @@
   }
   function renderTopStats(latest, weeksData) {
     els.currentWeekStat.textContent = "Week " + latest.week;
-    if (cfg.TOTAL_MVPS) {
+
+    // SHOW_REMAINING is the on/off switch in config.js. Set it to false to keep
+    // the "Still Alive" stat blank without disturbing TOTAL_MVPS.
+    if (cfg.SHOW_REMAINING === false) {
+      els.remainingStat.textContent = "—";
+    } else if (cfg.TOTAL_MVPS) {
       const eliminated = S.cumulativeEliminated(weeksData);
       const remaining = cfg.TOTAL_MVPS - eliminated;
       els.remainingStat.textContent = remaining + " of " + cfg.TOTAL_MVPS;
